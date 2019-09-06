@@ -1,0 +1,39 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - REPOSITORY_URI=030988507990.dkr.ecr.ap-southeast-2.amazonaws.com/sited_api
+      - COMMIT_HASH=$(date +%s)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm i
+      - npm run build
+      - ls -la
+      - echo Building the Docker image...
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - docker ps -a
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions files...
+      - mkdir definitions
+      - printf '[{"name":"sited-api-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > definitions/release.json
+      - cat definitions/release.json
+artifacts:
+  files:
+    - "**/*"
+  name: SitedAPIDeployment.zip
+  base-directory: definitions

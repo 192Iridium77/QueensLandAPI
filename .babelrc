@@ -1,0 +1,11 @@
+{
+  "presets": ["env", "stage-2"],
+  "sourceMaps": "inline",
+  "plugins": [
+    ["module-resolver", {
+      "alias": {
+        "~": "./src"
+      }
+    }]
+  ]
+}
