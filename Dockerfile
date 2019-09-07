@@ -17,7 +17,6 @@ WORKDIR /usr/src/express-api
 
 # copy the api, note .dockerignore
 COPY ./dist /usr/src/express-api/
-COPY rds-combined-ca-bundle.pem /usr/src/express-api/
 RUN chmod +x ./entrypoint.sh
 RUN npm install
 
