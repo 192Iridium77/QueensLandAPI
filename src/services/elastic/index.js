@@ -34,6 +34,7 @@ client.$exists = function({ index, id }) {
 client.$search = function(args) {
   args.body.size = args.body.size || defaultSize;
   return client.indices.exists(args).then(exists => {
+    console.log('EXISTS', exists)
     if (!exists) return [];
     return client.search(args).then(({ hits: { hits } }) => {
       return map(hits, e => e._source);
