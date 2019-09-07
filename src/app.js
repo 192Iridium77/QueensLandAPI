@@ -7,8 +7,7 @@ var indexRouter = require("./routes/index");
 
 var app = express();
 
-const whitelist =
-  process.env.NODE_ENV === "development" ? "*" : ["http://localhost:3000"];
+const whitelist = "*";
 const corsOptions = {
   origin: whitelist,
   optionsSuccessStatus: 200

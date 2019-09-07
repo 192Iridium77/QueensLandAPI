@@ -9,7 +9,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - REPOSITORY_URI=030988507990.dkr.ecr.ap-southeast-2.amazonaws.com/sited_api
+      - REPOSITORY_URI=441254910419.dkr.ecr.ap-southeast-2.amazonaws.com/queensland-api-container
       - COMMIT_HASH=$(date +%s)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
@@ -30,7 +30,7 @@ phases:
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions files...
       - mkdir definitions
-      - printf '[{"name":"sited-api-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > definitions/release.json
+      - printf '[{"name":"queensland-api-container","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > definitions/release.json
       - cat definitions/release.json
 artifacts:
   files:

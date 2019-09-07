@@ -5,7 +5,7 @@
  */
 
 var app = require("./app");
-var debug = require("debug")("xcon-api:server");
+var debug = require("debug")("queensland-api:server");
 var http = require("http");
 
 /**
